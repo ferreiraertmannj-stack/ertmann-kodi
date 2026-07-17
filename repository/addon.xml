@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="repository.ertmann"
+       name="Ertmann Tech Repository"
+       version="0.1.0"
+       provider-name="Ertmann Tech">
+    <extension point="xbmc.addon.repository">
+        <dir>
+            <info>https://REPLACE_WITH_OFFICIAL_HOST/addons.xml</info>
+            <checksum>https://REPLACE_WITH_OFFICIAL_HOST/addons.xml.md5</checksum>
+            <datadir zip="true">https://REPLACE_WITH_OFFICIAL_HOST/</datadir>
+            <hashes>sha256</hashes>
+        </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Official Ertmann Tech Kodi add-on repository.</summary>
+        <description lang="en_GB">
+            Placeholder repository manifest. Publication endpoints will be configured before release.
+        </description>
+        <platform>all</platform>
+        <license>MIT</license>
+    </extension>
+</addon>
