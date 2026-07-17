@@ -1,0 +1,2 @@
+# Ferramenta de qualidade para futuros módulos Python. Não é distribuída no add-on.
+ruff>=0.12,<1
