@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.ertmann.maintenance" name="Ertmann Maintenance" version="1.0.0" provider-name="Ertmann Tech">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+    </requires>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">System maintenance tool</summary>
+        <description lang="en_GB">Clears cache, packages, and thumbnails to keep the system optimized.</description>
+        <platform>all</platform>
+    </extension>
+</addon>
