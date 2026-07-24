@@ -1,0 +1,18 @@
+APP_NAME Ertmann
+COMPANY_NAME Ertmann Tech
+DEV_NAME Ertmann Tech
+ABOUT_WEBSITE https://kodi.tv/about/
+FORUM_WEBSITE https://forum.kodi.tv/
+DOCS_WEBSITE https://kodi.wiki/
+COPYRIGHT_YEARS 2005-2026
+WEBSITE https://github.com/Ertmann-Tech
+VERSION_MAJOR 21
+VERSION_MINOR 3
+VERSION_TAG
+VERSION_CODE 21.3.0
+ADDON_API 21.3.0
+ADDON_REPOS repository.ertmann|https://github.com/Ertmann-Tech/addons,repository.xbmc.org|https://mirrors.kodi.tv
+APP_PACKAGE tech.ertmann.media
+PACKAGE_IDENTITY ErtmannTech.Ertmann
+PACKAGE_PUBLISHER C62BD90A-CDD8-477F-96C3-B25992247B98
+PACKAGE_DESCRIPTION Ertmann Media Center is a professional fork of Kodi, an open source (GPL) software media center.
