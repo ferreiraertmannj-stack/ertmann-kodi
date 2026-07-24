@@ -1,3 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<addons>
-</addons>
+<?xml version='1.0' encoding='UTF-8'?>
+<addons><addon id="repository.ertmann" name="Ertmann Tech Repository" version="1.0.0" provider-name="Ertmann Tech">
+    <requires>
+        <import addon="xbmc.addon" version="20.0.0" />
+    </requires>
+    <extension point="xbmc.addon.repository" name="Ertmann Tech Repository">
+        <dir>
+            <info compressed="false">https://raw.githubusercontent.com/Ertmann-Tech/addons/main/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/Ertmann-Tech/addons/main/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/Ertmann-Tech/addons/main/zips/</datadir>
+        </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Ertmann Tech Official Repository</summary>
+        <description lang="en_GB">Download and install the official Ertmann Tech add-ons and updates.</description>
+        <platform>all</platform>
+    </extension>
+</addon><addon id="script.ertmann.wizard" name="Ertmann Wizard" version="1.0.0" provider-name="Ertmann Tech">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0" />
+    </requires>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">First run configuration wizard</summary>
+        <description lang="en_GB">Provides a guided configuration flow for initial setup of Ertmann Media Center.</description>
+        <platform>all</platform>
+    </extension>
+</addon></addons>
