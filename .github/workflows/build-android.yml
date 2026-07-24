@@ -30,8 +30,7 @@ jobs:
     # Install Kodi build dependencies for Ubuntu (cross-compilation requirements)
     - name: Install System Dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential automake autoconf gawk gperf default-jre unzip cmake curl libcurl4-openssl-dev zlib1g-dev default-jdk gcc g++ pkg-config libssl-dev libtool texinfo
+        sudo apt-get update && sudo apt-get install -y build-essential cmake curl default-jdk git gperf libbz2-dev libcurl4-openssl-dev libsqlite3-dev libssl-dev nasm python3-dev python3-pil swig unzip zip zlib1g-dev liblzma-dev ccache
 
     # Build Kodi for Android
     - name: Build Kodi (Ertmann Fork) for Android
@@ -45,7 +44,7 @@ jobs:
         export CFLAGS="-Wno-int-conversion"
         export CXXFLAGS="-Wno-int-conversion"
         ./configure --with-tarballs=/tmp/tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_SDK_ROOT --with-ndk-path=$ANDROID_NDK_ROOT --prefix=$(pwd)/xbmc-depends
-        make -j$(nproc)
+        make -j$(nproc) || (echo "Make falhou! Exibindo as ultimas 300 linhas:" && tail -n 300 config.log && exit 1)
         cd ../../
         make -j$(nproc) apk
       
