@@ -1,4 +1,4 @@
-<?xml version="1.xml" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="repository.ertmann" name="Ertmann Tech Repository" version="1.0.0" provider-name="Ertmann Tech">
     <requires>
         <import addon="xbmc.addon" version="20.0.0"/>
