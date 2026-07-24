@@ -13,12 +13,21 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Configure CMake (Visual Studio 2022)
+    - name: Setup vcpkg and install dependencies
+      run: |
+        git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+        .\vcpkg\bootstrap-vcpkg.bat
+        .\vcpkg\vcpkg.exe install libxml2:x64-windows pkgconf:x64-windows
+      shell: powershell
+
+    - name: Configure CMake (Visual Studio 2022) with vcpkg toolchain
       run: |
         cd kodi-source
-        mkdir build
+        mkdir -Force build
         cd build
-        cmake -G "Visual Studio 17 2022" -A x64 ..
+        $vcpkg = (Resolve-Path '..\..\vcpkg\scripts\buildsystems\vcpkg.cmake').Path
+        cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="$vcpkg" -DVCPKG_TARGET_TRIPLET="x64-windows" ..
+      shell: powershell
       
     - name: Build Kodi (.exe)
       run: |

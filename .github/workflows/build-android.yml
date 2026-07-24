@@ -30,7 +30,7 @@ jobs:
     # Install Kodi build dependencies for Ubuntu (cross-compilation requirements)
     - name: Install System Dependencies
       run: |
-        sudo apt-get update && sudo apt-get install -y build-essential cmake curl default-jdk git gperf libbz2-dev libcurl4-openssl-dev libsqlite3-dev libssl-dev nasm python3-dev python3-pil swig unzip zip zlib1g-dev liblzma-dev ccache
+        sudo apt-get update && sudo apt-get install -y build-essential cmake curl default-jdk git gperf libbz2-dev libcurl4-openssl-dev libsqlite3-dev libssl-dev nasm python3-dev python3-pil swig unzip zip zlib1g-dev liblzma-dev ccache libgl1-mesa-dev
 
     - name: Setup Compiler Cache
       uses: actions/cache@v4
@@ -45,23 +45,37 @@ jobs:
     # Build Kodi for Android
     - name: Build Kodi (Ertmann Fork) for Android
       run: |
-        # Kodi uses a custom CMake cross-compilation toolchain for Android.
-        # This executes the official build step for APK generation based on kodi-source.
+        set -euxo pipefail
+
         cd kodi-source/tools/depends
         chmod +x bootstrap
         ./bootstrap
+
         chmod +x configure || true
+
         export CFLAGS="-Wno-int-conversion"
         export CXXFLAGS="-Wno-int-conversion"
-        
-        # 1. Primeiro, constroi as dependências nativas com o compilador do sistema (sem flags do host)
-        ./configure --with-tarballs=/tmp/tarballs --prefix=$(pwd)/xbmc-depends --with-render-system=gl
+
+        mkdir -p /tmp/tarballs
+
+        echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-<not-set>}"
+        echo "ANDROID_NDK_ROOT=${ANDROID_NDK_ROOT:-<not-set>}"
+        echo "PWD=$(pwd)"
+
+        # 1. Native build: explicitly provide a valid render system (gl)
+        ./configure --with-tarballs=/tmp/tarballs --prefix="$(pwd)/xbmc-depends" --with-render-system=gl || (echo "Native configure failed; printing config.log" && test -f config.log && tail -n 300 config.log || true && exit 1)
+
         make -j$(nproc) native/.installed-x86_64-linux-native || (echo "Native build failed! Exibindo as ultimas 300 linhas:" && tail -n 300 config.log && exit 1)
-        
-        # 2. Depois, reconfigura para o cross-compile do Android
-        ./configure --with-tarballs=/tmp/tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_SDK_ROOT --with-ndk-path=$ANDROID_NDK_ROOT --prefix=$(pwd)/xbmc-depends --with-render-system=gles
+
+        # 2. Cross compilation for Android
+        if [ -z "${ANDROID_SDK_ROOT:-}" ] || [ -z "${ANDROID_NDK_ROOT:-}" ]; then
+          echo "ANDROID_SDK_ROOT or ANDROID_NDK_ROOT is not set. Ensure android-actions/setup-android is configured to expose them."
+        fi
+
+        ./configure --with-tarballs=/tmp/tarballs --host=aarch64-linux-android --with-sdk-path="$ANDROID_SDK_ROOT" --with-ndk-path="$ANDROID_NDK_ROOT" --prefix="$(pwd)/xbmc-depends" --with-render-system=gles || (echo "Cross configure failed; printing config.log" && test -f config.log && tail -n 300 config.log || true && exit 1)
+
         make -j$(nproc) || (echo "Cross-compilation failed! Exibindo as ultimas 300 linhas:" && tail -n 300 config.log && exit 1)
-        
+
         cd ../../
         make -j$(nproc) apk
       
