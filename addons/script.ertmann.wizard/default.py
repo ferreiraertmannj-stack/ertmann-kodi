@@ -44,9 +44,13 @@ class WizardUI(xbmcgui.WindowXMLDialog):
 
 def main():
     log("Wizard add-on started")
-    # For now, we just mock the wizard window initialization.
-    # A real window requires XML files packaged with the addon inside resources/skins/Default/1080i/
-    log("Awaiting XML skin files for the Wizard GUI. Exiting safely.")
+    try:
+        # Load the wizard_main.xml from the addon's resources/skins/Default/1080i/ path
+        ui = WizardUI('wizard_main.xml', ADDON.getAddonInfo('path'), 'Default', '1080i')
+        ui.doModal()
+        del ui
+    except Exception as e:
+        log(f"Error launching wizard UI: {e}", xbmc.LOGERROR)
 
 if __name__ == '__main__':
     main()
