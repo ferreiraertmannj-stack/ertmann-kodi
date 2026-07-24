@@ -39,6 +39,8 @@ jobs:
         # Kodi uses a custom CMake cross-compilation toolchain for Android.
         # This executes the official build step for APK generation based on kodi-source.
         cd kodi-source/tools/depends
+        chmod +x bootstrap configure
+        find . -type f -name "*.sh" -exec chmod +x {} +
         ./bootstrap
         ./configure --with-tarballs=/tmp/tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_SDK_ROOT --with-ndk-path=$ANDROID_NDK_ROOT
         make -j$(nproc)
