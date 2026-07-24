@@ -1,49 +1,59 @@
 # Roadmap
 
-This roadmap is a technical planning document. Each phase requires explicit
-approval before implementation.
+Planejamento técnico do Ertmann Media Center. Cada fase requer aprovação
+explícita antes da implementação.
 
 ## v0.1 Foundation
 
-Establish repository conventions, documentation, licensing, and development
-quality standards.
+Estabelecer governança, documentação, estratégia de fork e estrutura do
+projeto.
 
-## v0.2 Core SDK
+## v0.2 Fork e Branding
 
-Define reusable, typed contracts for shared Kodi add-on infrastructure without
-coupling future modules to Kodi core changes.
+Aplicar branding Ertmann sobre o Kodi: alterar `version.txt`, substituir
+assets visuais, validar build com nova identidade.
 
-## v0.3 Repository
+## v0.3 Repositório
 
-Prepare the official Kodi repository metadata, publication model, and release
-artifact validation process.
+Publicar o repositório oficial Ertmann com hosting HTTPS, geração automática
+de `addons.xml` e pipeline de release.
 
-## v0.4 Theme
+## v0.4 Skin
 
-Define an optional theme module architecture using official Kodi skin APIs.
+Criar a skin Ertmann como addon, com identidade visual própria e
+compatibilidade com Kodi Nexus e Omega.
 
 ## v0.5 Wizard
 
-Define an optional guided configuration module using approved Kodi interfaces.
+Implementar addon de configuração guiada para primeira execução: idioma,
+região, fontes, addons recomendados.
 
-## v0.6 Maintenance
+## v0.6 Manutenção
 
-Define an optional maintenance module with explicit safety boundaries.
+Implementar addon de manutenção: limpeza de cache, thumbnails, packages,
+otimização de banco de dados.
 
-## v0.7 Network Toolkit
+## v0.7 Ferramentas de Rede
 
-Define an optional network diagnostics module using compatible platform APIs.
+Implementar addon de diagnóstico de rede: speedtest, DNS, ping, status de
+VPN.
 
 ## v0.8 Log Analyzer
 
-Define an optional log analysis module with privacy-preserving handling.
+Implementar addon de análise de logs: parser de `kodi.log` com diagnósticos
+e sugestões.
 
-## v0.9 Beta
+## v0.9 Backup e Atualizador
 
-Run compatibility validation across supported Kodi versions and target
-platforms, then prepare release candidates.
+Implementar addon de backup e restore de configurações. Implementar serviço
+de verificação de versão Ertmann.
+
+## v0.10 Beta
+
+Validar compatibilidade em todas as plataformas, testar addons populares e
+preparar release candidates.
 
 ## v1.0 Stable
 
-Publish a stable, documented platform release with validated module contracts,
-release artifacts, and support policy.
+Publicar a primeira release estável com binários, repositório funcional e
+documentação completa.
