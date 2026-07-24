@@ -24,13 +24,16 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    - name: Setup Android SDK and NDK
-      uses: android-actions/setup-android@v3
-
     # Install Kodi build dependencies for Ubuntu (cross-compilation requirements)
     - name: Install System Dependencies
       run: |
-        sudo apt-get update && sudo apt-get install -y build-essential cmake curl default-jdk git gperf libbz2-dev libcurl4-openssl-dev libsqlite3-dev libssl-dev nasm python3-dev python3-pil swig unzip zip zlib1g-dev liblzma-dev ccache libgl1-mesa-dev
+        sudo apt-get update && sudo apt-get install -y build-essential gcc g++ binutils make pkg-config cmake curl default-jdk git gperf libbz2-dev libcurl4-openssl-dev libsqlite3-dev libssl-dev nasm python3-dev python3-pil swig unzip zip zlib1g-dev liblzma-dev ccache libgl1-mesa-dev
+
+    - name: Verify Host Compiler
+      run: |
+        which gcc && gcc --version
+        which g++ && g++ --version
+        echo 'int main() { return 0; }' | gcc -x c -
 
     - name: Setup Compiler Cache
       uses: actions/cache@v4
@@ -42,48 +45,51 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-kodi-android-depends-
 
-    # Build Kodi for Android
-    - name: Build Kodi (Ertmann Fork) for Android
+    # Step 1: Build Native Host Tools for Kodi
+    - name: Build Native Host Tools
       run: |
         set -euxo pipefail
 
         cd kodi-source/tools/depends
         chmod +x bootstrap
         ./bootstrap
-
         chmod +x configure || true
-
-        export CFLAGS="-Wno-int-conversion"
-        export CXXFLAGS="-Wno-int-conversion"
 
         mkdir -p /tmp/tarballs
 
-        echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-<not-set>}"
-        echo "ANDROID_NDK_ROOT=${ANDROID_NDK_ROOT:-<not-set>}"
-        echo "PWD=$(pwd)"
-
-        # 1. Native build: explicitly force system host compilers (gcc/g++) instead of Android NDK
+        # Native build: use standard host compilers without NDK flags
         export CC=/usr/bin/gcc
         export CXX=/usr/bin/g++
         export AR=/usr/bin/ar
         export RANLIB=/usr/bin/ranlib
-        export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 
         ./configure --with-tarballs=/tmp/tarballs --prefix="$(pwd)/xbmc-depends" --with-rendersystem=gl || (echo "Native configure failed; printing config.log" && test -f config.log && tail -n 300 config.log || true && exit 1)
 
-        make -j$(nproc) native/.installed-x86_64-linux-native || (echo "Native build failed! Exibindo as ultimas 300 linhas:" && tail -n 300 config.log && exit 1)
+        make -j$(nproc) native/.installed-x86_64-linux-native || (echo "Native build failed! Exibindo as ultimas 300 linhas:" && test -f config.log && tail -n 300 config.log && exit 1)
 
-        # Restore/unset host compiler environment before cross compilation
-        unset CC CXX AR RANLIB
+    # Step 2: Setup Android NDK/SDK (Only needed for cross-compilation)
+    - name: Setup Android SDK and NDK
+      uses: android-actions/setup-android@v3
 
-        # 2. Cross compilation for Android
+    # Step 3: Cross-Compile Kodi for Android
+    - name: Cross-Compile Kodi for Android
+      run: |
+        set -euxo pipefail
+
+        cd kodi-source/tools/depends
+
+        export CFLAGS="-Wno-int-conversion"
+
+        echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-<not-set>}"
+        echo "ANDROID_NDK_ROOT=${ANDROID_NDK_ROOT:-<not-set>}"
+
         if [ -z "${ANDROID_SDK_ROOT:-}" ] || [ -z "${ANDROID_NDK_ROOT:-}" ]; then
           echo "ANDROID_SDK_ROOT or ANDROID_NDK_ROOT is not set. Ensure android-actions/setup-android is configured to expose them."
         fi
 
         ./configure --with-tarballs=/tmp/tarballs --host=aarch64-linux-android --with-sdk-path="$ANDROID_SDK_ROOT" --with-ndk-path="$ANDROID_NDK_ROOT" --prefix="$(pwd)/xbmc-depends" --with-rendersystem=gles || (echo "Cross configure failed; printing config.log" && test -f config.log && tail -n 300 config.log || true && exit 1)
 
-        make -j$(nproc) || (echo "Cross-compilation failed! Exibindo as ultimas 300 linhas:" && tail -n 300 config.log && exit 1)
+        make -j$(nproc) || (echo "Cross-compilation failed! Exibindo as ultimas 300 linhas:" && test -f config.log && tail -n 300 config.log || true && exit 1)
 
         cd ../../
         make -j$(nproc) apk

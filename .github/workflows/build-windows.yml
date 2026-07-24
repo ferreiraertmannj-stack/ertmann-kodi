@@ -17,7 +17,19 @@ jobs:
       run: |
         git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
         .\vcpkg\bootstrap-vcpkg.bat
-        .\vcpkg\vcpkg.exe install libxml2:x64-windows libass:x64-windows libxslt:x64-windows libudfread:x64-windows pkgconf:x64-windows
+        $maxRetries = 3
+        $retryCount = 0
+        while ($retryCount -lt $maxRetries) {
+          try {
+            .\vcpkg\vcpkg.exe install libxml2:x64-windows libass:x64-windows libxslt:x64-windows libudfread:x64-windows pkgconf:x64-windows --verbose
+            break
+          } catch {
+            $retryCount++
+            if ($retryCount -ge $maxRetries) { throw $_ }
+            Write-Host "Retry attempt $retryCount..."
+            Start-Sleep -Seconds 10
+          }
+        }
       shell: powershell
 
     - name: Configure CMake (Visual Studio 2022) with vcpkg toolchain
