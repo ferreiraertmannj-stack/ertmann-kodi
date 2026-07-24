@@ -1,21 +1,22 @@
 ## Summary
 
-Describe the change and its purpose.
+Descreva a mudança e seu objetivo.
 
 ## Scope
 
-- [ ] No Kodi core code was modified.
-- [ ] Only official Kodi APIs are used.
-- [ ] No unrequested functionality was added.
-- [ ] Compatibility with Kodi Nexus and Omega was considered.
+- [ ] Nenhum arquivo do core do Kodi (`kodi-source/`) foi alterado, exceto os listados no `FORK_STRATEGY.md` (branding).
+- [ ] Apenas APIs oficiais do Kodi foram utilizadas.
+- [ ] O código Python (se aplicável) é compatível com Python 3.10+ (Kodi Nexus/Omega).
+- [ ] A compatibilidade do ecossistema Kodi foi mantida.
 
 ## Validation
 
-- [ ] Relevant XML files were validated.
-- [ ] Python code follows PEP 8 and uses type hints where appropriate.
-- [ ] Files are UTF-8 encoded with LF line endings.
-- [ ] Documentation was updated when required.
+- [ ] Arquivos XML foram validados em relação ao esquema do Kodi.
+- [ ] O código Python segue a PEP 8 e utiliza type hints onde apropriado.
+- [ ] Os arquivos estão codificados em UTF-8 com finais de linha LF.
+- [ ] A documentação foi atualizada (se necessário).
+- [ ] Build local foi testado (se aplicável).
 
 ## Review notes
 
-List compatibility, security, or release considerations for reviewers.
+Liste considerações sobre compatibilidade, segurança ou lançamento para os revisores. O PR resolve qual issue?

@@ -1,23 +1,28 @@
 ---
 name: Feature request
-about: Propose a future platform capability
+about: Propor uma nova funcionalidade para o Ertmann Media Center
 title: "[Feature]: "
 labels: enhancement
 assignees: ""
 ---
 
-## Problem
+## Problema
 
-Describe the problem or need.
+Descreva o problema ou necessidade.
 
-## Proposed outcome
+## Resultado proposto
 
-Describe the intended platform outcome without prescribing implementation.
+Descreva a funcionalidade esperada.
 
-## Compatibility
+## Viabilidade técnica
 
-Explain implications for Kodi Nexus, Omega, and supported platforms.
+- [ ] Pode ser implementado exclusivamente como um Add-on Python, Skin ou configuração?
+*(Se a funcionalidade exigir mudanças no motor em C++ do Kodi, ela provavelmente será rejeitada conforme o `FORK_STRATEGY.md`).*
 
-## Alternatives
+## Compatibilidade
 
-Describe alternatives or existing Kodi APIs considered.
+Explique as implicações para o ecossistema (Kodi Nexus, Omega) e outras plataformas suportadas.
+
+## Alternativas
+
+Quais alternativas ou APIs existentes do Kodi foram consideradas?
