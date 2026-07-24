@@ -15,6 +15,42 @@
         <description lang="en_GB">Download and install the official Ertmann Tech add-ons and updates.</description>
         <platform>all</platform>
     </extension>
+</addon><addon id="script.ertmann.loganalyzer" name="Ertmann Log Analyzer" version="1.0.0" provider-name="Ertmann Tech">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0" />
+    </requires>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Log file analyzer</summary>
+        <description lang="en_GB">Reads and extracts errors from kodi.log for easy troubleshooting.</description>
+        <platform>all</platform>
+    </extension>
+</addon><addon id="script.ertmann.maintenance" name="Ertmann Maintenance" version="1.0.0" provider-name="Ertmann Tech">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0" />
+    </requires>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">System maintenance tool</summary>
+        <description lang="en_GB">Clears cache, packages, and thumbnails to keep the system optimized.</description>
+        <platform>all</platform>
+    </extension>
+</addon><addon id="script.ertmann.network" name="Ertmann Network Diagnostic" version="1.0.0" provider-name="Ertmann Tech">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0" />
+    </requires>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Network diagnostic tool</summary>
+        <description lang="en_GB">Analyzes connection speeds, latency, and DNS configuration.</description>
+        <platform>all</platform>
+    </extension>
 </addon><addon id="script.ertmann.wizard" name="Ertmann Wizard" version="1.0.0" provider-name="Ertmann Tech">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
@@ -27,4 +63,16 @@
         <description lang="en_GB">Provides a guided configuration flow for initial setup of Ertmann Media Center.</description>
         <platform>all</platform>
     </extension>
+</addon><addon id="skin.ertmann" version="1.0.0" name="Ertmann Skin" provider-name="Ertmann Tech">
+  <requires>
+    <import addon="xbmc.gui" version="5.17.0" />
+  </requires>
+  <extension point="xbmc.gui.skin" debugging="false">
+    <res width="1920" height="1080" aspect="16:9" default="true" folder="xml" />
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Ertmann Media Center Official Skin</summary>
+    <description lang="en_GB">The default and highly optimized professional interface for the Ertmann Media Center.</description>
+    <platform>all</platform>
+  </extension>
 </addon></addons>
