@@ -31,7 +31,7 @@ jobs:
     - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential automake autoconf gawk gperf default-jre unzip cmake curl libcurl4-openssl-dev zlib1g-dev default-jdk
+        sudo apt-get install -y build-essential automake autoconf gawk gperf default-jre unzip cmake curl libcurl4-openssl-dev zlib1g-dev default-jdk gcc g++ pkg-config libssl-dev libtool texinfo
 
     # Build Kodi for Android
     - name: Build Kodi (Ertmann Fork) for Android
