@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="skin.ertmann" version="1.0.0" name="Ertmann Skin" provider-name="Ertmann Tech">
+  <requires>
+    <import addon="xbmc.gui" version="5.17.0"/>
+  </requires>
+  <extension point="xbmc.gui.skin" debugging="false">
+    <res width="1920" height="1080" aspect="16:9" default="true" folder="xml" />
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Ertmann Media Center Official Skin</summary>
+    <description lang="en_GB">The default and highly optimized professional interface for the Ertmann Media Center.</description>
+    <platform>all</platform>
+  </extension>
+</addon>

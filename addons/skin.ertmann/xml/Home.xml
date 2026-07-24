@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window id="0">
+    <defaultcontrol always="true">100</defaultcontrol>
+    <onload>RunScript(script.ertmann.wizard)</onload>
+    <controls>
+        <control type="group">
+            <!-- Background Image -->
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <width>1920</width>
+                <height>1080</height>
+                <texture>special://home/addons/skin.ertmann/media/bg.jpg</texture>
+                <aspectratio>scale</aspectratio>
+            </control>
+            <!-- Logo / Branding placeholder -->
+            <control type="label">
+                <left>100</left>
+                <top>100</top>
+                <width>600</width>
+                <height>100</height>
+                <font>font45</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>Ertmann Media Center</label>
+            </control>
+            <!-- Start button -->
+            <control type="button" id="100">
+                <left>100</left>
+                <top>500</top>
+                <width>300</width>
+                <height>60</height>
+                <font>font25</font>
+                <label>MENU</label>
+            </control>
+        </control>
+    </controls>
+</window>
