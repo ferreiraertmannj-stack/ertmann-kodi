@@ -25,3 +25,12 @@ indent_size = 4
 
 [*.txt]
 indent_size = 4
+
+# Kodi C++ and CMake rules
+[*.{cpp,h,cc,c,hpp}]
+indent_style = space
+indent_size = 2
+
+[CMakeLists.txt,*.cmake]
+indent_style = space
+indent_size = 2
