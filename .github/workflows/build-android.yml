@@ -58,10 +58,11 @@ jobs:
         mkdir -p /tmp/tarballs
 
         # Native build: use standard host compilers without NDK flags
-        export CC=/usr/bin/gcc
-        export CXX=/usr/bin/g++
-        export AR=/usr/bin/ar
-        export RANLIB=/usr/bin/ranlib
+        export CC=gcc
+        export CXX=g++
+        export AR=ar
+        export RANLIB=ranlib
+        export CCACHE_DISABLE=1
 
         ./configure --with-tarballs=/tmp/tarballs --prefix="$(pwd)/xbmc-depends" --with-rendersystem=gl || (echo "Native configure failed; printing config.log" && test -f config.log && tail -n 300 config.log || true && exit 1)
 
