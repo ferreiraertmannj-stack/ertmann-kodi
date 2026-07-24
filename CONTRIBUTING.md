@@ -1,19 +1,24 @@
 # Contributing
 
-Obrigado por contribuir com a Ertmann Kodi Platform. A plataforma é construída
-sobre o Kodi e não modifica seu código-fonte. Toda contribuição deve usar
-somente APIs oficiais e preservar compatibilidade com Kodi Nexus e Omega.
+Obrigado por contribuir com o Ertmann Media Center. Nosso projeto é um fork profissional do Kodi, mantido em um monorepo que contém o código-fonte upstream do Kodi (`kodi-source/`) e nossos addons, skins e ferramentas.
+
+## Regras de Ouro
+
+1. **Nunca modifique o core do Kodi** além do estritamente necessário para branding (ver [FORK_STRATEGY.md](FORK_STRATEGY.md)).
+2. Toda nova funcionalidade deve ser implementada como um **addon Python**, skin ou script independente.
+3. Preservamos compatibilidade total com o ecossistema Kodi (Nexus e Omega).
 
 ## Branches
 
 Crie branches curtas a partir de `main` e use um prefixo descritivo:
 
 - `docs/` para documentação.
-- `chore/` para infraestrutura e manutenção do repositório.
-- `feature/` para funcionalidades aprovadas.
-- `fix/` para correções aprovadas.
+- `chore/` para infraestrutura, build e manutenção.
+- `feature/` para novas funcionalidades em addons Ertmann.
+- `fix/` para correções.
+- `upstream/` reservado para sincronização com o Kodi upstream.
 
-Exemplo: `chore/repository-metadata`.
+Exemplo: `feature/wizard-language-selection`.
 
 ## Commits
 
@@ -23,26 +28,21 @@ Mantenha commits pequenos, coesos e reversíveis. Use mensagens no formato:
 tipo(escopo): resumo objetivo
 ```
 
-Exemplo: `docs(repository): explain release flow`.
+Exemplo: `fix(wizard): resolve language selection error`.
 
-Explique no corpo do commit quando houver decisão de compatibilidade, segurança
-ou mudança de arquitetura.
+Explique no corpo do commit quando houver decisão de compatibilidade ou mudança arquitetural.
 
 ## Code style
 
 - Use UTF-8, LF e newline final conforme `.editorconfig`.
-- Siga PEP 8 para Python e use type hints quando aplicável.
+- Siga PEP 8 para Python e use type hints quando aplicável. (Baseline: Python 3.10).
 - Mantenha XML no formato oficial do Kodi.
-- Evite dependências externas sem justificativa e aprovação.
-- Não implemente funcionalidades fora do escopo aprovado.
+- O código do `kodi-source/` deve seguir as regras de estilo do próprio Kodi (C++).
 
 ## Review
 
-Abra um pull request com escopo limitado. Preencha o template, descreva a
-validação realizada e aguarde a revisão do code owner antes do merge.
+Abra um pull request com escopo limitado. Preencha o template, descreva a validação realizada e aguarde a revisão do code owner antes do merge.
 
 ## Releases
 
-Releases usam Semantic Versioning e tags Git assinadas. Consulte
-`VERSIONING.md`, `CHANGELOG.md` e `repository/docs/github-actions.md` antes de
-preparar artefatos de distribuição.
+Releases usam Semantic Versioning modificado para alinhar com a versão do Kodi base. Consulte `VERSIONING.md` e `CHANGELOG.md` antes de preparar artefatos de distribuição.

@@ -1,31 +1,32 @@
-# Versioning
+# Versionamento
 
-The Ertmann Kodi Platform follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
+O Ertmann Media Center utiliza um modelo de versionamento baseado no Kodi upstream, combinado com um identificador de build interno.
 
-## Format
+## Formato
+
+O formato oficial de versão para binários e releases é:
 
 ```text
-MAJOR.MINOR.PATCH
+MAJOR.MINOR.PATCH-ertmann.BUILD
 ```
 
-- `MAJOR` changes when a public contract changes incompatibly.
-- `MINOR` changes when a compatible capability is added.
-- `PATCH` changes when a compatible defect is corrected.
+- `MAJOR.MINOR.PATCH`: Reflete exatamente a versão do Kodi upstream que serve de base. (Ex: `21.3.0` para Omega).
+- `-ertmann.`: Sufixo identificador do fork.
+- `BUILD`: Número sequencial (incrementado a cada release da Ertmann Tech na mesma versão do Kodi).
 
-Pre-release identifiers, such as `1.0.0-beta.1`, may be used for testing and
-must not be treated as stable releases.
+**Exemplo:**
+`21.3.0-ertmann.1` (Kodi Omega 21.3.0, primeiro build estável da Ertmann Tech).
 
-## Kodi add-ons
+## Versionamento de Addons
 
-For each published add-on, the version in `addon.xml`, the ZIP filename, the
-entry in `addons.xml`, the Git tag, and the changelog release heading must
-match exactly.
+Cada addon Ertmann (em `addons/` ou `skins/`) possui seu próprio versionamento no formato Semantic Versioning (`MAJOR.MINOR.PATCH`), independente do release principal do media center.
 
-Repository metadata uses the same versioning policy. Increment it only when
-the repository add-on's public manifest or metadata changes.
+A versão de cada addon é declarada em seu respectivo `addon.xml`.
 
-## Git tags and releases
+## Ciclo de Release
 
-Release tags use `vMAJOR.MINOR.PATCH` and should be signed. A release is
-created only after review, validation, changelog update, and confirmation that
-the target Kodi compatibility remains supported.
+1. **Alpha/Beta**: `21.3.0-ertmann.1-beta`
+2. **Stable**: `21.3.0-ertmann.1`
+3. **Hotfix**: `21.3.0-ertmann.2` (se o Kodi base não mudou) ou `21.3.1-ertmann.1` (se o Kodi upstream lançou uma minor).
+
+Para as regras de sincronização e atualização de versão, consulte o documento [FORK_STRATEGY.md](FORK_STRATEGY.md).
