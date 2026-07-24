@@ -42,6 +42,8 @@ jobs:
         chmod +x bootstrap
         ./bootstrap
         chmod +x configure || true
+        export CFLAGS="-Wno-int-conversion"
+        export CXXFLAGS="-Wno-int-conversion"
         ./configure --with-tarballs=/tmp/tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_SDK_ROOT --with-ndk-path=$ANDROID_NDK_ROOT --prefix=$(pwd)/xbmc-depends
         make -j$(nproc)
         cd ../../
