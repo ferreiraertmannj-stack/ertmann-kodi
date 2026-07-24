@@ -62,10 +62,19 @@ jobs:
         echo "ANDROID_NDK_ROOT=${ANDROID_NDK_ROOT:-<not-set>}"
         echo "PWD=$(pwd)"
 
-        # 1. Native build: explicitly provide a valid render system (gl)
+        # 1. Native build: explicitly force system host compilers (gcc/g++) instead of Android NDK
+        export CC=/usr/bin/gcc
+        export CXX=/usr/bin/g++
+        export AR=/usr/bin/ar
+        export RANLIB=/usr/bin/ranlib
+        export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+
         ./configure --with-tarballs=/tmp/tarballs --prefix="$(pwd)/xbmc-depends" --with-rendersystem=gl || (echo "Native configure failed; printing config.log" && test -f config.log && tail -n 300 config.log || true && exit 1)
 
         make -j$(nproc) native/.installed-x86_64-linux-native || (echo "Native build failed! Exibindo as ultimas 300 linhas:" && tail -n 300 config.log && exit 1)
+
+        # Restore/unset host compiler environment before cross compilation
+        unset CC CXX AR RANLIB
 
         # 2. Cross compilation for Android
         if [ -z "${ANDROID_SDK_ROOT:-}" ] || [ -z "${ANDROID_NDK_ROOT:-}" ]; then
