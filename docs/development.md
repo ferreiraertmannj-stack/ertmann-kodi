@@ -2,42 +2,68 @@
 
 ## Pré-requisitos
 
-- Kodi Nexus ou Omega para testes manuais futuros.
-- Python 3 para ferramentas locais de qualidade quando houver código Python.
-- CMD (Command Prompt) para comandos Windows.
+- Kodi Nexus ou Omega instalado para testes de addons.
+- Python 3.10 ou superior para ferramentas de qualidade.
+- Git 2.30 ou superior.
+- CMD (Command Prompt) para comandos Git.
+- Visual Studio (Windows) ou GCC/Clang (Linux) para build do Kodi.
 
 ## Ambiente local
 
-Quando Python estiver instalado, crie o ambiente local usando CMD:
+Crie o ambiente Python para ferramentas de qualidade:
 
 ```cmd
 python -m venv .venv
 .venv\Scripts\python -m pip install -r requirements-dev.txt
 ```
 
-## Validação atual
+## Estrutura de trabalho
 
-Este repositório não deve conter implementação funcional de add-ons. A validação
-normal é documental e estrutural:
+O workspace contém o fork do Kodi e os componentes Ertmann:
 
-```cmd
-git diff --check
-git status
+```text
+kodi-source/    O código do Kodi. Não modifique além do branding.
+addons/         Addons Ertmann. Desenvolvimento principal aqui.
+skins/          Skins Ertmann.
+branding/       Assets visuais.
 ```
 
-Nos repositórios com Python, execute os testes e validações do próprio módulo.
-Exemplo para o Core:
+## Validação
+
+### Addons Python
 
 ```cmd
-python -m unittest discover -s tests
-python -m compileall script.ertmann.platform.core tests
+python -m py_compile addons\script.ertmann.maintenance\default.py
+.venv\Scripts\ruff check addons\
 ```
+
+### Manifesto XML
+
+Valide `addon.xml` de cada addon antes do commit.
+
+### Build do Kodi
+
+Consulte a documentação oficial do Kodi para build por plataforma. O build
+do fork utiliza o mesmo CMake, apenas com `version.txt` alterado.
 
 ## Convenções
 
-- Siga PEP 8 em código Python.
-- Use tipagem quando a API do Kodi e o contexto permitirem.
-- Não inclua dependências de execução sem justificativa e declaração no
-  manifesto do módulo.
-- Evite comentários que apenas repitam o código.
+- Siga PEP 8 para Python. Use type hints quando aplicável.
+- Mantenha XML no formato oficial do Kodi.
+- Código Python deve funcionar com Python 3.10 (Kodi Nexus).
+- Não inclua dependências externas sem justificativa.
+- Nunca modifique o core do Kodi sem aprovação e documentação.
 - Nunca execute `git push` automaticamente.
+- Use commits pequenos no formato: `tipo(escopo): resumo`.
+
+## Git
+
+Utilize CMD para todos os comandos Git:
+
+```cmd
+git add .
+git commit -m "tipo(escopo): resumo"
+git status
+```
+
+Nunca utilize PowerShell para Git neste projeto.

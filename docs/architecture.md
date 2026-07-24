@@ -1,43 +1,74 @@
 # Arquitetura
 
+## Visão geral
+
+O Ertmann Media Center é um fork profissional do Kodi. A arquitetura consiste
+em três camadas:
+
+1. **Kodi core** — código C++ do Kodi, modificado apenas para branding.
+2. **Addons Ertmann** — funcionalidades implementadas como addons Python.
+3. **Infraestrutura** — repositório, branding, build e automação.
+
 ## Princípios
 
-- O Kodi não é alterado; os módulos usam somente APIs oficiais.
-- Cada add-on é uma unidade independente, com identificador e manifesto
-  próprios.
-- Código compartilhado deve viver no Core SDK, dentro de `ertmann-kodi-core`.
-- Dependências de execução devem ser declaradas no `addon.xml` do módulo que as
-  utiliza.
-- A compatibilidade mínima planejada é Kodi Nexus e Kodi Omega nas plataformas
-  suportadas.
+- O core do Kodi não é alterado além do branding.
+- Toda funcionalidade nova é um addon, skin, script ou configuração.
+- Compatibilidade com addons, skins e repositórios existentes é obrigatória.
+- APIs do Kodi (Python, JSON-RPC, binary addons) nunca são modificadas.
+- O fork deve ser atualizável para novas versões do Kodi com conflitos
+  mínimos.
 
-## Organização oficial
+## Estrutura do fork
 
 ```text
-Ertmann-Tech/
-  ertmann-kodi-platform
-  ertmann-kodi-core
-  ertmann-kodi-repository
-  ertmann-kodi-theme
-  ertmann-kodi-wizard
-  ertmann-kodi-maintenance
-  ertmann-kodi-network
-  ertmann-kodi-log-analyzer
+ertmann-kodi-platatform/
+├── kodi-source/                Fork do Kodi (upstream: xbmc/xbmc)
+│   ├── version.txt             ★ Branding Ertmann
+│   ├── media/                  ★ Assets visuais Ertmann
+│   ├── system/addon-manifest   ★ Addons Ertmann bundled
+│   └── (demais arquivos)       Inalterados
+├── addons/                     Addons Python Ertmann
+├── skins/                      Skins Ertmann
+├── branding/                   Assets de branding
+├── repository/                 Metadados do repositório Kodi
+├── scripts/                    Automação
+├── build/                      Configurações de build
+├── tools/                      Ferramentas de desenvolvimento
+└── docs/                       Documentação
 ```
 
-## Responsabilidade da Platform
+## Camada Kodi core
 
-`ertmann-kodi-platform` mantém decisões de arquitetura, governança,
-versionamento, contribuição e roadmap. Ele não deve receber implementação de
-add-ons.
+O Kodi fornece toda a infraestrutura de reprodução de mídia, GUI, addons,
+skins, protocolos de rede, banco de dados e multiplataforma. O fork modifica
+apenas:
 
-## Responsabilidade do Core
+- `version.txt` — identidade da aplicação.
+- `media/` — splash screen e ícones.
+- `system/addon-manifest.xml` — addons pré-instalados.
 
-`script.ertmann.platform.core` pertence ao repositório `ertmann-kodi-core` e
-fornece a biblioteca reutilizável para futuros add-ons.
+## Camada Addons Ertmann
 
-## Regra de evolução
+Cada addon Ertmann é um add-on Python padrão do Kodi com `addon.xml` próprio:
 
-Antes de implementar qualquer módulo, confirme que o diretório local pertence
-ao repositório oficial correspondente. Código não deve ser duplicado entre
-repositórios.
+| Addon | Tipo | Função |
+| --- | --- | --- |
+| `repository.ertmann` | `xbmc.addon.repository` | Repositório oficial |
+| `script.ertmann.wizard` | `xbmc.python.script` | Configuração guiada |
+| `script.ertmann.maintenance` | `xbmc.python.script` | Manutenção |
+| `script.ertmann.network` | `xbmc.python.script` | Diagnóstico de rede |
+| `script.ertmann.loganalyzer` | `xbmc.python.script` | Análise de logs |
+| `skin.ertmann` | `xbmc.gui.skin` | Skin personalizada |
+
+## Camada Infraestrutura
+
+- **Repositório**: hosting HTTPS de addons com `addons.xml` e checksums.
+- **Build**: CMake do Kodi com branding Ertmann aplicado.
+- **CI/CD**: GitHub Actions para validação, empacotamento e publicação.
+
+## Regras de evolução
+
+- Consulte `FORK_STRATEGY.md` antes de qualquer alteração no core.
+- Addons devem usar somente APIs oficiais do Kodi.
+- Novas dependências requerem justificativa e aprovação.
+- Código Python deve ser compatível com Python 3.10 ou superior.
