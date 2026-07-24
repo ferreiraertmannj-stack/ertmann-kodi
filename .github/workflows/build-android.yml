@@ -32,6 +32,16 @@ jobs:
       run: |
         sudo apt-get update && sudo apt-get install -y build-essential cmake curl default-jdk git gperf libbz2-dev libcurl4-openssl-dev libsqlite3-dev libssl-dev nasm python3-dev python3-pil swig unzip zip zlib1g-dev liblzma-dev ccache
 
+    - name: Setup Compiler Cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.ccache
+          kodi-source/tools/depends/xbmc-depends
+        key: ${{ runner.os }}-kodi-android-depends-${{ hashFiles('kodi-source/tools/depends/**/*.txt', 'kodi-source/tools/depends/**/*.mk') }}
+        restore-keys: |
+          ${{ runner.os }}-kodi-android-depends-
+
     # Build Kodi for Android
     - name: Build Kodi (Ertmann Fork) for Android
       run: |
