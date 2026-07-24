@@ -42,7 +42,7 @@ jobs:
         chmod +x bootstrap
         ./bootstrap
         chmod +x configure || true
-        ./configure --with-tarballs=/tmp/tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_SDK_ROOT --with-ndk-path=$ANDROID_NDK_ROOT
+        ./configure --with-tarballs=/tmp/tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_SDK_ROOT --with-ndk-path=$ANDROID_NDK_ROOT --prefix=$(pwd)/xbmc-depends
         make -j$(nproc)
         cd ../../
         make -j$(nproc) apk
