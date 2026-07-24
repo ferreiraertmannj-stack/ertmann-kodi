@@ -41,6 +41,22 @@ class WizardUI(xbmcgui.WindowXMLDialog):
 
     def onClick(self, controlId):
         log(f"Control {controlId} clicked")
+        if controlId == 1:
+            log("Continue button clicked. Finishing setup wizard.")
+            
+            # Create a flag file to prevent the wizard from running on next boot
+            flag_path = xbmc.translatePath('special://userdata/ertmann_wizard_done.flag')
+            try:
+                with open(flag_path, 'w') as f:
+                    f.write('1')
+            except Exception as e:
+                log(f"Failed to write wizard flag: {e}", xbmc.LOGERROR)
+                
+            # Notify the user
+            xbmc.executebuiltin('Notification(Ertmann Media Center, Configuração concluída com sucesso!, 3000)')
+            
+            # Close the wizard
+            self.close()
 
 def main():
     log("Wizard add-on started")
