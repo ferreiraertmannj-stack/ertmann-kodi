@@ -43,8 +43,15 @@ jobs:
         chmod +x configure || true
         export CFLAGS="-Wno-int-conversion"
         export CXXFLAGS="-Wno-int-conversion"
+        
+        # 1. Primeiro, constroi as dependências nativas com o compilador do sistema (sem flags do host)
+        ./configure --with-tarballs=/tmp/tarballs --prefix=$(pwd)/xbmc-depends
+        make -j$(nproc) native/.installed-x86_64-linux-native || (echo "Native build failed! Exibindo as ultimas 300 linhas:" && tail -n 300 config.log && exit 1)
+        
+        # 2. Depois, reconfigura para o cross-compile do Android
         ./configure --with-tarballs=/tmp/tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_SDK_ROOT --with-ndk-path=$ANDROID_NDK_ROOT --prefix=$(pwd)/xbmc-depends
-        make -j$(nproc) || (echo "Make falhou! Exibindo as ultimas 300 linhas:" && tail -n 300 config.log && exit 1)
+        make -j$(nproc) || (echo "Cross-compilation failed! Exibindo as ultimas 300 linhas:" && tail -n 300 config.log && exit 1)
+        
         cd ../../
         make -j$(nproc) apk
       
